@@ -1,0 +1,23 @@
+# --- Global Settings ---
+# Run each stressor one-by-one
+run sequential
+
+# Apply these settings to *each* stressor
+timeout 1m
+verify
+metrics-brief
+klog-check
+yaml test.yaml
+
+# --- Stressor List ---
+# List each stressor followed by its worker count (0 = all CPUs)
+l1cache 0
+jpeg 0
+besselmath 0
+trig 0
+dekker 0
+numa 0
+memfd 0
+remap 0
+aio 0
+udp 0
