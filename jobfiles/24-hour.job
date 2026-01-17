@@ -1,0 +1,91 @@
+#
+# 24-Hour Full System Shakedown
+# Target: Threadripper / High-End Workstation RMA Validation
+# Total Runtime: 86,400 seconds (24 Hours)
+#
+
+run sequential
+metrics-brief
+verbose
+verify
+aggressive
+oom-avoid
+timeout 5400
+
+# =========================================================
+# PHASE 1: THE FURNACE (CPU & VRM)
+# Goal: Thermal saturation and Voltage Regulator stress
+# =========================================================
+
+# 1. Matrix: The ultimate heat generator.
+matrix 0
+matrix-method all
+matrix-size 1024
+
+# 2. Vecwide: AVX/SIMD Spikes.
+vecwide 0
+
+# 3. Floating Point: FPU Stability.
+fp 0
+fp-method all
+
+# 4. CPU: General Core Logic.
+cpu 0
+
+# 5. Cache: L1/L2/L3 Coherency.
+cache 0
+cache-level 3
+
+# =========================================================
+# PHASE 2: MEMORY INTEGRITY (RAM & INFINITY FABRIC)
+# Goal: Find bit flips and fabric interconnect faults
+# =========================================================
+
+# 6. VM: The "Memtest".
+vm 0
+vm-bytes 85%
+vm-method all
+vm-keep
+
+# 7. NUMA: Fabric Stress.
+numa 0
+
+# 8. Stream: Bandwidth.
+stream 0
+
+# 9. mContend: Lock Contention.
+mcontend 0
+
+# =========================================================
+# PHASE 3: STORAGE (CONTROLLERS & IOPS)
+# Duration: ~6 Hours (21,600 Seconds)
+# Goal: Stress controllers/cache without burning 100TB of NAND
+# =========================================================
+
+# 10. Seek: Random IOPS.
+seek 0
+seek-size 1G
+
+# 11. Readahead: Read Fatigue.
+readahead 0
+
+# 12. IO-Uring: NVMe Queues.
+io-uring 0
+
+# 13. HDD: Mixed Sequential.
+hdd 0
+hdd-write-size 2M
+
+# =========================================================
+# PHASE 4: TRANSPORT & INTERRUPTS (The Cool Down)
+# Goal: System stability and interrupt handling
+# =========================================================
+
+# 14. UDP Flood: Interrupt Storm.
+udp 0
+
+# 15. Pipe: RAM-to-RAM copy.
+pipe 0
+
+# 16. Epoll: Event Handling.
+epoll 0

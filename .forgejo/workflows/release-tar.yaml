@@ -1,0 +1,109 @@
+name: Shakedown Distribution Build
+#runs on tag
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  dist-build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Needed to get tags for your versioning
+          submodules: recursive
+
+      - name: Install System Dependencies
+        run: |
+          apt-get update
+          apt-get install -y \
+            pkg-config libx11-dev libwayland-dev libxkbcommon-dev \
+            libdbus-1-dev libegl1-mesa-dev build-essential git curl
+
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Build Shakedown (Rust)
+        run: cargo build --release
+
+      - name: Build Stress-ng (C Static)
+        working-directory: ./stress-ng
+        run: make -j$(nproc) STATIC=1
+
+      - name: Install CUDA Toolkit
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nvidia-cuda-toolkit
+
+      - name: Build Portable gpu_burn
+        working-directory: ./gpu-burn
+        run: |
+          # 1. Generate PTX for Ampere+ (RTX 30/40 series)
+          # Using sm_80 ensures compatibility with all modern RTX cards
+          nvcc -ptx -arch=sm_80 compare.cu -o compare.ptx
+
+          # 2. Static Link with Driver Stubs
+          # FIX: Ensure it is a capital -O3 (Optimization)
+          g++ -O3 -o gpu_burn gpu_burn-drv.cpp \
+            -I/usr/local/cuda/include \
+            -L/usr/local/cuda/lib64 \
+            -L/usr/local/cuda/lib64/stubs \
+            -Wl,--start-group \
+            -lcublas_static \
+            -lcublasLt_static \
+            -lcudart_static \
+            -lculibos \
+            -Wl,--end-group \
+            -lcuda \
+            -lpthread -ldl -lrt
+
+          # 3. Verification
+          echo "Verifying portability..."
+          ldd gpu_burn | grep -qi "cuda\|cublas" && (echo "Failed: Dynamic links found"; exit 1) || echo "Static build OK"
+
+      - name: Prepare Distribution
+        run: |
+          # Recreating your script logic
+          mkdir -p dist/
+          cp target/release/shakedown dist/
+          cp stress-ng/stress-ng dist/
+          cp -r jobfiles/ dist/
+          cp gpu-burn/gpu_burn dist/
+          cp gpu-burn/compare.ptx dist/
+
+          # Versioning
+          CURRENT_TAG=$(git tag -l | tail -n 1 || echo "latest")
+          tar -czvf "/tmp/shakedown-${CURRENT_TAG}.tar.gz" -C dist .
+          mv "/tmp/shakedown-${CURRENT_TAG}.tar.gz" dist/
+          rm dist/shakedown
+          rm dist/stress-ng
+          rm -r dist/jobfiles
+          rm dist/gpu_burn
+          rm dist/compare.ptx
+
+      - name: Upload Tarball
+        uses: actions/upload-artifact@v3
+        with:
+          name: shakedown-dist-22.04
+          path: "dist/*.tar.gz"
+          retention-days: 30
+
+      - name: publish release
+        uses: https://data.forgejo.org/actions/forgejo-release@v2.7.3
+        with:
+          url: "https://git.karner.dev"
+          repo: "jdkarner/shakedown"
+          direction: upload
+          tag: "${{ github.ref_name }}"
+          sha: "${{ github.sha }}"
+          release-dir: dist/
+          token: ${{ secrets.TOKEN }}
+          override: ${{ vars.OVERRIDE || 'false' }}
+          verbose: ${{ vars.VERBOSE || 'false' }}
+          hide-archive-link: true
+          release-notes-assistant: false

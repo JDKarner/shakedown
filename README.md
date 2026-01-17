@@ -1,2 +1,98 @@
-# shakedown
+# Shakedown - Linux Hardware Stress Testing Application
 
+Intended method of use.
+
+
+```curl -sSL https://git.karner.dev/jdkarner/shakedown/raw/branch/main/scripts/release.sh | bash```
+
+
+Shakedown is a GUI application for running comprehensive hardware stress tests on Linux systems to detect hardware faults. It provides a user-friendly interface for configuring and monitoring stress-ng tests while tracking system temperatures and hardware errors.
+
+![Shakedown Screenshot](https://git.karner.dev/jdkarner/shakedown/attachments/3c67d479-7e24-47a4-95b5-1d73ee04e15e)
+
+
+## Features
+
+- **GUI-based test configuration** - Select which subsystems to stress test:
+  - CPU - Computation-heavy workloads, FPU, cache stress
+  - Memory - RAM integrity, memory subsystem testing
+  - Disk - Storage read/write operations
+  - I/O - Asynchronous/synchronous I/O operations
+
+- **Execution modes**:
+  - **Sequential** - Run tests one after another (easier to identify which test causes issues)
+  - **Parallel** - Run all tests simultaneously (maximum system stress)
+  Jobfiles are Sequential by default, Parrallel here runs all selected tests at the same time. Probably.
+
+- **Real-time monitoring**:
+  - Temperature sensors via sysfs/hwmon
+  - Hardware error logging via journalctl
+  - Test progress and elapsed time
+
+- **Pre-configured stress-ng jobfiles** - Solid defaults that can be customized if needed
+
+## Building
+
+```scripts/build-dist.sh```
+This does not currently include building gpu_burn, The forgejo workflow does build gpu_burn
+
+## Usage
+
+1. Launch the application: (The intended method of use is to use the curl command above.)
+   ```bash
+   cd $shakedown_dir
+   ./shakedown
+   ```
+
+2. **Select Tests**: Check the boxes for the subsystems you want to stress test
+
+3. **Choose Execution Mode**:
+   - Sequential: Tests run job at a time
+   - Parallel: All selected jobs run simultaneously
+
+4. **Start Tests**: Click "Start Tests" to begin
+
+5. **Monitor**:
+   - Watch temperatures in the right panel
+   - View hardware errors in the center panel
+   - Track progress in the status bar
+
+6. **Stop Tests**: Click "Stop Tests" to terminate running tests
+
+## Jobfiles
+
+Pre-configured stress-ng jobfiles are located in the `jobfiles/` directory:
+
+### Customizing Jobfiles
+
+The jobfiles use stress-ng's jobfile format. You can edit them to:
+- Adjust test duration (`timeout`)
+- Enable/disable specific stressors
+- Change resource limits
+
+Example jobfile directive:
+```
+timeout 300s     # Run for 5 minutes
+cpu 0            # Use all CPU cores
+verify           # Verify computations for error detection
+```
+
+## Hardware Error Detection
+
+Shakedown monitors journalctl for hardware-related errors including:
+- Machine Check Exceptions (MCE)
+- EDAC memory errors
+- Disk/storage errors (ATA, AHCI, NVMe)
+- PCIe errors
+- Thermal events
+- Kernel hardware errors
+
+## License
+
+MIT License
+
+## Acknowledgments
+
+- [stress-ng](https://github.com/ColinIanKing/stress-ng) - The underlying stress testing tool
+- [egui](https://github.com/emilk/egui) - Immediate mode GUI library for Rust
+- [gpu-burn](https://github.com/wilicc/gpu-burn) - GPU stress testing tool

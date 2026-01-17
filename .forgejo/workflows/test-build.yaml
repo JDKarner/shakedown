@@ -1,0 +1,67 @@
+name: Rust Build & Test
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    env:
+      CARGO_TERM_COLOR: always
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Update Submodules
+        run: git submodule update --init --recursive
+
+        # temp comment out for quicker gpu_burn testing
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Build Rust Project
+        run: cargo build --verbose
+
+      - name: Run Tests
+        run: cargo test --verbose
+      - name: Install CUDA Toolkit
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nvidia-cuda-toolkit
+
+      - name: Build Portable gpu_burn
+        run: |
+          cd gpu-burn
+
+          # 1. Generate PTX for Ampere+ (RTX 30/40 series)
+          # Using sm_80 ensures compatibility with all modern RTX cards
+          nvcc -ptx -arch=sm_80 compare.cu -o compare.ptx
+
+          # 2. Static Link with Driver Stubs
+          # FIX: Ensure it is a capital -O3 (Optimization)
+          g++ -O3 -o gpu_burn gpu_burn-drv.cpp \
+            -I/usr/local/cuda/include \
+            -L/usr/local/cuda/lib64 \
+            -L/usr/local/cuda/lib64/stubs \
+            -Wl,--start-group \
+            -lcublas_static \
+            -lcublasLt_static \
+            -lcudart_static \
+            -lculibos \
+            -Wl,--end-group \
+            -lcuda \
+            -lpthread -ldl -lrt
+
+          # 3. Verification
+          echo "Verifying portability..."
+          ldd gpu_burn | grep -qi "cuda\|cublas" && (echo "Failed: Dynamic links found"; exit 1) || echo "Static build OK"

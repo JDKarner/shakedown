@@ -1,0 +1,50 @@
+#
+# stress-ng I/O Stress Test Jobfile (IPC & Transport)
+# Focus: RAM-to-RAM throughput, Kernel Pipe buffers, and Interrupt handling
+#
+
+run sequential
+timeout 300s
+verbose
+metrics-brief
+log-brief
+
+# 1. Pipe: The classic data mover.
+# Stresses memory bandwidth and context switching between processes.
+# If you have a bad RAM stick that only fails under high throughput, this helps find it.
+pipe 0
+pipe-ops 100000
+pipe-size 65536
+
+# 2. Splice: Zero-Copy magic.
+# Moves data between buffers in kernel space without copying to user space.
+# Stresses the kernel's memory management and DMA engines.
+splice 0
+splice-ops 100000
+
+# 3. Sendfile:
+# Similar to splice, widely used by web servers.
+# Tests the kernel's ability to shovel data efficiently.
+sendfile 0
+sendfile-ops 100000
+sendfile-size 128M
+
+# 4. FIFO: Named Pipes.
+# Adds a filesystem layer to the pipe operations.
+fifo 0
+fifo-ops 100000
+fifo-readers 4
+
+# --- Event & Interrupt Stress ---
+
+# 5. Epoll: Event Loop Stress.
+# Generates massive amounts of "wake up" events.
+# Good for testing system responsiveness and CPU interrupt handling.
+epoll 0
+epoll-ops 100000
+
+# 6. Timerfd: High-Frequency Timers.
+# Floods the CPU with timer interrupts.
+# Validates that the system clock and hardware timers are stable under load.
+timerfd 0
+timerfd-ops 100000

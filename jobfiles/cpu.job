@@ -1,0 +1,41 @@
+#
+# CPU Stress Test Jobfile
+# Comprehensive CPU stress testing for hardware fault detection
+#
+
+# Stress-ng parameters
+run sequential
+timeout 360s
+verify
+aggressive
+metrics-brief
+log-brief
+
+# Stress-ng Stressors
+# Use all available CPU cores
+cpu 0
+
+# Matrix operations - heavy ALU and FPU usage
+matrix 0
+matrix-method all
+matrix-size 1024
+
+# Branch prediction stress
+branch 0
+
+# Cache stress testing
+cache 0
+cache-level 3
+
+# Floating point operations
+fp 0
+fp-method all
+
+# Vector/SIMD operations
+vecwide 0
+
+# Zlib compression (CPU bound)
+zlib 0
+
+# NUMA stress (if available)
+numa 0

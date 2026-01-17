@@ -1,0 +1,48 @@
+#
+# Shakedown - Disk/Storage Stress Test Jobfile (Hardware Focused)
+# Target: Thermal saturation, Controller stability, Bad Sector detection
+#
+
+# Stress-ng parameters
+run sequential
+timeout 360s
+verify
+metrics-brief
+oom-avoid
+log-brief
+
+# Stress-ng Stressors
+# 1. HDD: The classic throughput stressor.
+# Writes large sequential blocks. Best for generating base heat and testing sustained sequential speeds.
+hdd 0
+hdd-bytes 1G
+hdd-write-size 64K
+
+# 2. IO-Uring: The NVMe Killer.
+# Uses the modern Linux io_uring interface to saturate high-speed NVMe queues.
+# If an NVMe drive is going to drop off the bus due to heat/load, this triggers it.
+io-uring 0
+
+# 3. Seek: Random Access Hell.
+# Forces the drive to jump around.
+# On HDDs: Stresses the mechanical arm/motor.
+# On SSDs: Stresses the internal lookup tables (FTL) and Garbage Collection.
+seek 0
+seek-size 512M
+
+# 4. MMAP: Memory Mapped I/O.
+# Tests the path between Disk <-> Page Cache <-> RAM.
+# Excellent for catching data corruption during transfer.
+mmap 0
+mmap-bytes 256M
+
+# 5. AIO: Asynchronous I/O.
+# Stresses the drive's ability to handle parallel requests (Queue Depth).
+aio 0
+aio-requests 64
+
+# 6. Sync-File: The Cache Buster.
+# Forces the drive to flush its internal DRAM cache to permanent storage repeatedly.
+# Tests the drive's power-loss protection logic and write durability.
+sync-file 0
+sync-file-bytes 64M

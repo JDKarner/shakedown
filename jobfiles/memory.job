@@ -1,0 +1,48 @@
+#
+# Shakedown - Memory Stress Test Jobfile (Hardware Focused)
+# Focus: DIMM Integrity, NUMA/Infinity Fabric, Cache Coherency
+#
+
+run sequential
+timeout 300s
+verify
+metrics-brief
+verbose
+oom-avoid
+
+
+# 1. VM: The "Memtest" of Linux.
+# The most important test. "vm-method all" cycles through
+# different bit-flipping patterns (galpat, walking ones, etc).
+vm 0
+vm-bytes 85%
+vm-method all
+vm-keep
+
+# 2. NUMA: Threadripper Essential.
+# Forces memory allocation across different NUMA nodes (chiplets).
+# Stresses the Infinity Fabric interconnects.
+# If a Threadripper hangs, it's usually this test or 'stream' that catches it.
+numa 0
+
+# 3. Stream: Bandwidth Saturation.
+# Based on the McCalpin STREAM benchmark.
+# Saturates memory channels to find timing violations.
+stream 0
+
+# 4. mContend: Cache Coherency.
+# Forces heavy memory contention between cores.
+# Excellent for finding race conditions in the cache hierarchy
+# (L3 cache collisions between chiplets).
+mcontend 0
+
+# 5. BigHeap: Addressing Stress.
+# Allocates using Transparent Huge Pages (THP).
+# Stresses the TLB (Translation Lookaside Buffer) and physical addressing logic.
+bigheap 0
+
+# 6. SHM: Shared Memory.
+# Tests POSIX shared memory segments.
+# Validates that the kernel can map/unmap shared regions across the fabric correctly.
+shm 0
+shm-bytes 128M
