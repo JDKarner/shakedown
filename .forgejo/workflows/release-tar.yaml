@@ -31,6 +31,11 @@ jobs:
       - name: Build Shakedown (Rust)
         run: cargo build --release
 
+      - name: Build Tricorder
+        run: |
+          cd tricorder
+          cargo build --release
+
       - name: Build Stress-ng (C Static)
         working-directory: ./stress-ng
         run: make -j$(nproc) STATIC=1
@@ -75,6 +80,7 @@ jobs:
           cp -r jobfiles/ dist/
           cp gpu-burn/gpu_burn dist/
           cp gpu-burn/compare.ptx dist/
+          cp tricorder/target/release/tricorder dist/
 
           # Versioning
           CURRENT_TAG=$(git tag -l | tail -n 1 || echo "latest")
@@ -85,6 +91,7 @@ jobs:
           rm -r dist/jobfiles
           rm dist/gpu_burn
           rm dist/compare.ptx
+          rm dist/tricorder
 
       - name: Upload Tarball
         uses: actions/upload-artifact@v3
