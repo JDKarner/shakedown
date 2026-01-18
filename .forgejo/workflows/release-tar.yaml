@@ -105,8 +105,7 @@ jobs:
               --exclude='./gpu-burn/gpu_burn' --exclude='./gpu-burn/*.ptx' \
               -czvf "/tmp/shakedown-${CURRENT_TAG}-complete-source.tar.gz" .
 
-          # Move both tarballs into dist/ for upload
-          mv /tmp/shakedown-${CURRENT_TAG}-linux-amd64.tar.gz dist/
+          # Move source tarball into dist/ for upload
           mv /tmp/shakedown-${CURRENT_TAG}-complete-source.tar.gz dist/
 
       - name: Upload Tarball
