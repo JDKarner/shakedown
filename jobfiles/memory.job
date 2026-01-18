@@ -9,6 +9,8 @@ verify
 metrics-brief
 verbose
 oom-avoid
+log-file memory.Log
+yaml memory.yaml
 
 
 # 1. VM: The "Memtest" of Linux.

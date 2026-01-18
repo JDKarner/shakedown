@@ -10,6 +10,8 @@ verify
 aggressive
 metrics-brief
 log-brief
+log-file cpu.Log
+yaml cpu.yaml
 
 # Stress-ng Stressors
 # Use all available CPU cores

@@ -10,6 +10,8 @@ verify
 metrics-brief
 oom-avoid
 log-brief
+log-file disk.Log
+yaml disk.yaml
 
 # Stress-ng Stressors
 # 1. HDD: The classic throughput stressor.

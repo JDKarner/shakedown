@@ -8,6 +8,8 @@ timeout 300s
 verbose
 metrics-brief
 log-brief
+log-file io.Log
+yaml io.yaml
 
 # 1. Pipe: The classic data mover.
 # Stresses memory bandwidth and context switching between processes.

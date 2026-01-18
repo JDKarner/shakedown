@@ -11,6 +11,8 @@ verify
 aggressive
 oom-avoid
 timeout 5400
+log-file 24-h.Log
+yaml 24-h.yaml
 
 # =========================================================
 # PHASE 1: THE FURNACE (CPU & VRM)
