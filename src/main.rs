@@ -10,6 +10,7 @@ mod ui;
 use anyhow::Result;
 use eframe::egui;
 use log::info;
+use tokio::process::Command;
 
 fn main() -> Result<()> {
     // Initialize logging
@@ -20,8 +21,9 @@ fn main() -> Result<()> {
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_title("Shakedown")
-            .with_inner_size([400.0, 600.0])
-            .with_min_inner_size([350.0, 500.0]),
+            .with_inner_size([500.0, 650.0])
+            .with_min_inner_size([350.0, 650.0])
+            .with_position(egui::Pos2::new(0.0, 0.0)),
         ..Default::default()
     };
 
@@ -33,4 +35,5 @@ fn main() -> Result<()> {
     .map_err(|e| anyhow::anyhow!("Failed to run application: {}", e))?;
 
     Ok(())
+
 }

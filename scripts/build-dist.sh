@@ -58,6 +58,14 @@ cd "$PROJECT_DIR/stress-ng"
 make -j$(nproc) STATIC=1
 cp stress-ng "$DIST_DIR/"
 
+
+# Build Tricorder
+echo "Building Tricorder..."
+cd "$PROJECT_DIR/tricorder"
+cargo build --release
+cp target/release/tricorder "$DIST_DIR/"
+
+
 # Create dist tarball with git tag as version
 git tag -l | tail -n 1 | xargs tar -czvf "$DIST_DIR/shakedown-$CURRENT_TAG.tar.gz" -C "$DIST_DIR" .
 

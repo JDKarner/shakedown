@@ -8,6 +8,8 @@ Intended method of use.
 
 Shakedown is a GUI application for running comprehensive hardware stress tests on Linux systems to detect hardware faults. It provides a user-friendly interface for configuring and monitoring stress-ng tests while tracking system temperatures and hardware errors.
 
+**Sister Application**: Shakedown automatically launches [Tricorder](./tricorder) in monitor mode for real-time system monitoring. You can manually relaunch it using the "🖖 Launch Tricorder" button if it gets closed.
+
 ![Shakedown Screenshot](https://git.karner.dev/jdkarner/shakedown/attachments/3c67d479-7e24-47a4-95b5-1d73ee04e15e)
 
 
@@ -34,7 +36,7 @@ Shakedown is a GUI application for running comprehensive hardware stress tests o
 ## Building
 
 ```scripts/build-dist.sh```
-This does not currently include building gpu_burn, The forgejo workflow does build gpu_burn
+This builds shakedown, stress-ng, and tricorder. It does not currently include building gpu_burn, The forgejo workflow does build gpu_burn.
 
 ## Usage
 
@@ -44,20 +46,21 @@ This does not currently include building gpu_burn, The forgejo workflow does bui
    ./shakedown
    ```
 
-2. **Select Tests**: Check the boxes for the subsystems you want to stress test
+2. **Tricorder Monitor**: The Tricorder system monitor will launch automatically in monitor mode. If closed accidentally, click "🖖 Launch Tricorder" in the top bar to relaunch it.
 
-3. **Choose Execution Mode**:
+3. **Select Tests**: Check the boxes for the subsystems you want to stress test
+
+4. **Choose Execution Mode**:
    - Sequential: Tests run job at a time
    - Parallel: All selected jobs run simultaneously
 
-4. **Start Tests**: Click "Start Tests" to begin
+5. **Start Tests**: Click "Start Tests" to begin
 
-5. **Monitor**:
-   - Watch temperatures in the right panel
-   - View hardware errors in the center panel
+6. **Monitor**:
+   - Use Tricorder for comprehensive real-time monitoring (CPU, GPU, temperatures, fans, logs)
    - Track progress in the status bar
 
-6. **Stop Tests**: Click "Stop Tests" to terminate running tests
+7. **Stop Tests**: Click "Stop Tests" to terminate running tests
 
 ## Jobfiles
 

@@ -22,9 +22,18 @@ pub fn render(app: &mut ShakedownApp, ctx: &Context) {
 }
 
 /// Render the top status bar
-fn render_top_bar(app: &ShakedownApp, ui: &mut egui::Ui) {
+fn render_top_bar(app: &mut ShakedownApp, ui: &mut egui::Ui) {
     ui.horizontal(|ui| {
         ui.heading("🔧 Shakedown");
+        ui.separator();
+
+        // Launch Tricorder button
+        if ui.button("🖖 Launch Tricorder")
+            .on_hover_text("Launch or relaunch the Tricorder system monitor (tricorder --monitor)")
+            .clicked()
+        {
+            app.launch_tricorder();
+        }
         ui.separator();
 
         // Status indicator

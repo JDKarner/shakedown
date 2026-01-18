@@ -168,7 +168,39 @@ impl ShakedownApp {
         // Prime monitors immediately so UI has data on first frame
         app.fan_monitor.update();
 
+        // Launch tricorder in monitor mode
+        app.launch_tricorder();
+
         app
+    }
+
+    /// Launch tricorder in monitor mode
+    pub fn launch_tricorder(&self) {
+        log::info!("Attempting to launch Tricorder in monitor mode...");
+
+        // Try to launch tricorder from various possible locations
+        let possible_paths = vec![
+            "./tricorder",                          // Same directory as shakedown
+        ];
+
+        for path in possible_paths {
+            match std::process::Command::new(path)
+                .arg("--monitor")
+                .spawn()
+            {
+                Ok(_child) => {
+                    log::info!("✓ Successfully launched Tricorder from: {}", path);
+                    return;
+                }
+                Err(e) => {
+                    log::debug!("  Failed to launch from '{}': {}", path, e);
+                    continue;
+                }
+            }
+        }
+
+        log::warn!("⚠ Could not launch Tricorder - ensure it's installed in the same directory as Shakedown");
+        log::info!("  You can manually launch Tricorder with: tricorder --monitor");
     }
 
     /// Update monitors if their intervals have elapsed
