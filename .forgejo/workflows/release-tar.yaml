@@ -95,18 +95,9 @@ jobs:
           rm dist/gpu_burn
           rm dist/compare.ptx
           rm dist/tricorder
-          rm dist/LICENSE*
-
-          # --- 2. Package Complete Source (GPL Requirement) ---
-          # We must tar the current directory because we have the submodules checked out.
-          # We exclude 'target' (build artifacts), '.git' (history), and 'dist' (the output).
-          tar --exclude='./target' --exclude='./.git' --exclude='./dist' \
-              --exclude='./tricorder/target' --exclude='./stress-ng/stress-ng' \
-              --exclude='./gpu-burn/gpu_burn' --exclude='./gpu-burn/*.ptx' \
-              -czvf "/tmp/shakedown-${CURRENT_TAG}-complete-source.tar.gz" .
-
-          # Move source tarball into dist/ for upload
-          mv /tmp/shakedown-${CURRENT_TAG}-complete-source.tar.gz dist/
+          rm dist/LICENSE
+          rm dist/LICENSE.stress-ng
+          rm dist/LICENSE.gpu-burn
 
       - name: Upload Tarball
         uses: actions/upload-artifact@v3
