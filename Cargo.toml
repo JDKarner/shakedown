@@ -1,10 +1,10 @@
 [package]
 name = "shakedown"
-version = "0.1.2"
+version = "0.1.5"
 edition = "2021"
 description = "Linux hardware stress testing application with GUI"
 authors = ["JDKarner & Claude Opus 4.5"]
-license = "GPLv3"
+license = "GPLv2"
 
 [dependencies]
 system76-power = { git = "https://github.com/pop-os/system76-power", optional = true }
