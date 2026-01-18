@@ -97,6 +97,18 @@ jobs:
           rm dist/tricorder
           rm dist/LICENSE*
 
+          # --- 2. Package Complete Source (GPL Requirement) ---
+          # We must tar the current directory because we have the submodules checked out.
+          # We exclude 'target' (build artifacts), '.git' (history), and 'dist' (the output).
+          tar --exclude='./target' --exclude='./.git' --exclude='./dist' \
+              --exclude='./tricorder/target' --exclude='./stress-ng/stress-ng' \
+              --exclude='./gpu-burn/gpu_burn' --exclude='./gpu-burn/*.ptx' \
+              -czvf "/tmp/shakedown-${CURRENT_TAG}-complete-source.tar.gz" .
+
+          # Move both tarballs into dist/ for upload
+          mv /tmp/shakedown-${CURRENT_TAG}-linux-amd64.tar.gz dist/
+          mv /tmp/shakedown-${CURRENT_TAG}-complete-source.tar.gz dist/
+
       - name: Upload Tarball
         uses: actions/upload-artifact@v3
         with:
