@@ -1,9 +1,12 @@
 [submodule "stress-ng"]
 	path = stress-ng
 	url = https://github.com/ColinIanKing/stress-ng
-[submodule "gpu-burn"]
+	branch = master
+	[submodule "gpu-burn"]
 	path = gpu-burn
 	url = https://github.com/wilicc/gpu-burn
+	branch = master
 [submodule "tricorder"]
 	path = tricorder
 	url = https://git.karner.dev/jdkarner/tricorder
+	branch = main
