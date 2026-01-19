@@ -81,8 +81,8 @@ jobs:
           cp gpu-burn/gpu_burn dist/
           cp gpu-burn/compare.ptx dist/
           cp tricorder/target/release/tricorder dist/
-          cp tricorder/codec.wav
-          cp tricorder/config.toml
+          cp tricorder/codec.wav dist/
+          cp tricorder/config.toml dist/
           cp LICENSE dist/
           cp LICENSE.stress-ng dist/
           cp LICENSE.gpu-burn dist/

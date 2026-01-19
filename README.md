@@ -8,9 +8,6 @@ Intended method of use.
 
 Shakedown is a GUI application for running comprehensive hardware stress tests on Linux systems to detect hardware faults. It provides a user-friendly interface for configuring and monitoring stress-ng tests while tracking system temperatures and hardware errors.
 
-**Sister Application**: Shakedown automatically launches [Tricorder](./tricorder) in monitor mode for real-time system monitoring. You can manually relaunch it using the "🖖 Launch Tricorder" button if it gets closed.
-
-![Shakedown Screenshot](https://git.karner.dev/jdkarner/shakedown/attachments/3c67d479-7e24-47a4-95b5-1d73ee04e15e)
 
 
 ## Features
