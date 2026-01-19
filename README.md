@@ -5,6 +5,7 @@ Intended method of use.
 
 ```curl -sSL https://git.karner.dev/jdkarner/shakedown/raw/branch/main/scripts/release.sh | bash```
 
+![image](/attachments/9481ceb8-e04a-41e0-8e68-da15cd074a5b)
 
 Shakedown is a GUI application for running comprehensive hardware stress tests on Linux systems to detect hardware faults. It provides a user-friendly interface for configuring and monitoring stress-ng tests while tracking system temperatures and hardware errors.
 
