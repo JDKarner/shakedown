@@ -12,23 +12,25 @@ Shakedown is a GUI application for running comprehensive hardware stress tests o
 
 ## Features
 
-- **GUI-based test configuration** - Select which subsystems to stress test:
+- **GUI-based test selection** - Select which subsystems to stress test:
   - CPU - Computation-heavy workloads, FPU, cache stress
   - Memory - RAM integrity, memory subsystem testing
   - Disk - Storage read/write operations
   - I/O - Asynchronous/synchronous I/O operations
+  - GPU Burn - CPU compute with CUDA
 
 - **Execution modes**:
   - **Sequential** - Run tests one after another (easier to identify which test causes issues)
   - **Parallel** - Run all tests simultaneously (maximum system stress)
-  Jobfiles are Sequential by default, Parrallel here runs all selected tests at the same time. Probably.
+  - **Pre-configured stress-ng jobfiles** - Solid defaults that can be customized if needed
+
+ > Jobfiles are Sequential by default, Parrallel here runs all selected tests at the same time.
+
 
 - **Real-time monitoring**:
-  - Temperature sensors via sysfs/hwmon
-  - Hardware error logging via journalctl
+  - Temperature sensors via Tricorder
+  - Hardware error logging via Tricorder
   - Test progress and elapsed time
-
-- **Pre-configured stress-ng jobfiles** - Solid defaults that can be customized if needed
 
 ## Building
 
@@ -77,19 +79,10 @@ cpu 0            # Use all CPU cores
 verify           # Verify computations for error detection
 ```
 
-## Hardware Error Detection
-
-Shakedown monitors journalctl for hardware-related errors including:
-- Machine Check Exceptions (MCE)
-- EDAC memory errors
-- Disk/storage errors (ATA, AHCI, NVMe)
-- PCIe errors
-- Thermal events
-- Kernel hardware errors
 
 ## License
 
-MIT License
+GPLv2
 
 ## Acknowledgments
 
