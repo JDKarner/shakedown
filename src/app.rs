@@ -19,7 +19,7 @@
 //! Main application state and egui integration
 
 use crate::stress::runner::{StressRunner, TestStatus};
-use std::sync::{Arc, Mutex};
+use std::{process::{Command, Stdio}, sync::{Arc, Mutex}};
 
 /// Test categories available for stress testing
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -196,9 +196,19 @@ impl ShakedownApp {
     pub fn launch_tricorder(&self) {
         log::info!("Attempting to launch Tricorder in monitor mode...");
 
+        let getuser = Command::new("bash")
+            .arg("-c")
+            .arg("whoami")
+            .stdout(Stdio::piped())
+            .output()
+            .expect("pp");
+
+        let user = format!("/home/{}/shakedown/tricorder", String::from_utf8_lossy(&getuser.stdout.trim_ascii_end()));
+
         // Try to launch tricorder from various possible locations
         let possible_paths = vec![
             "./tricorder",                          // Same directory as shakedown
+            &user
         ];
 
         for path in possible_paths {
@@ -208,10 +218,12 @@ impl ShakedownApp {
             {
                 Ok(_child) => {
                     log::info!("✓ Successfully launched Tricorder from: {}", path);
+                    log::info!("path {:#?}", user);
                     return;
                 }
                 Err(e) => {
                     log::debug!("  Failed to launch from '{}': {}", path, e);
+                    log::info!("path {:#?}", user);
                     continue;
                 }
             }

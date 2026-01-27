@@ -1,0 +1,9 @@
+[Unit]
+Description=Shakedown - Linux Hardware Stress Testing Application
+After=user@1000.service
+
+[Service]
+ExecStart=/usr/bin/shakedown
+
+[Install]
+WantedBy=multi-user.target
