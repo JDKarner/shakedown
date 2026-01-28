@@ -43,6 +43,8 @@ tar -xf "$TARGET_DIR/$FILE_NAME" -C "$TARGET_DIR"
 # It's safer/faster to just chmod the binary you know you need
 chmod +x "$TARGET_DIR/$BINARY_NAME"
 cd "$TARGET_DIR"
+sudo apt update
+sudo apt install smartmontools
 
 # 5. Run
 echo "Running $BINARY_NAME..."
