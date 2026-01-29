@@ -1,6 +1,6 @@
 [package]
 name = "shakedown"
-version = "0.1.5"
+version = "0.1.7"
 edition = "2021"
 description = "Linux hardware stress testing application with GUI"
 authors = ["JDKarner & Claude Opus 4.5"]
