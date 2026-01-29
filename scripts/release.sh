@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Configuration
-REPO_OWNER="jdkarner"
+REPO_OWNER="JDKarner"
 REPO_NAME="shakedown"
-HOST="https://git.karner.dev"
+HOST="https://github.com"
 TARGET_DIR="shakedown"
 BINARY_NAME="shakedown"
 
