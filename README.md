@@ -1,8 +1,9 @@
 # Shakedown - Linux Hardware Stress Testing Application
 
-```DISCLAIMER: This is largely created by AI, Stress-ng and GPU_burn are staples of stress testing linux systems. This was created with the intent of transforming cli tests we already used into an easy gui for non-technical users easing entry into stress testing linux systems. The Logs tab in tricorder is still a large work in progress, it still picks up many false positives. This was built targeting ubuntu-22.04 this should be mostly portable though your milage may vary. ```
+# DISCLAIMER:
+This is largely created by AI, Stress-ng and GPU_burn are staples of stress testing linux systems. This was created with the intent of transforming cli tests we already used into an easy gui for non-technical users easing entry into stress testing linux systems. The Logs tab in tricorder is still a large work in progress, it still picks up many false positives. This was built targeting ubuntu-22.04 this should be mostly portable though your milage may vary. Read the release script before using, installs smartmontools with apt, install manually if apt isn't aplicable.
 
-Intended method of use. Read the release script before using, installs smartmontools with apt, install manually if apt isn't aplicable.
+Intended method of use. 
 
 
 ```curl -sSL https://raw.githubusercontent.com/JDKarner/shakedown/refs/heads/main/scripts/release.sh | bash```
