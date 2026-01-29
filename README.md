@@ -6,6 +6,8 @@ Intended method of use.
 
 
 ```curl -sSL https://raw.githubusercontent.com/JDKarner/shakedown/refs/heads/main/scripts/release.sh | bash```
+
+
 ```Confirmed precompiled binaries work on Arch, AerynOS, Pop 22.04, Pop 24.04, Solus, Ubuntu 24.04.```
 
 ![image](https://git.karner.dev/jdkarner/shakedown/attachments/9481ceb8-e04a-41e0-8e68-da15cd074a5b)
