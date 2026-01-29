@@ -86,7 +86,8 @@ cargo check --quiet > /dev/null 2>&1
 read -p "Do you want to commit and tag v$NEW_VERSION? (y/n): " GIT_CONFIRM
 
 if [[ $GIT_CONFIRM == "y" ]]; then
-    git add Cargo.toml Cargo.lock
+    git submodule update --remote
+    git add Cargo.toml Cargo.lock tricorder stress-ng
     git commit -m "chore: bump version to $NEW_VERSION"
     git tag "v$NEW_VERSION"
 
