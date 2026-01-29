@@ -3,7 +3,7 @@
 Intended method of use.
 
 
-```curl -sSL https://git.karner.dev/jdkarner/shakedown/raw/branch/main/scripts/release.sh | bash```
+```curl -sSL https://raw.githubusercontent.com/JDKarner/shakedown/refs/heads/main/scripts/release.sh | bash```
 
 ![image](https://git.karner.dev/jdkarner/shakedown/attachments/9481ceb8-e04a-41e0-8e68-da15cd074a5b)
 
