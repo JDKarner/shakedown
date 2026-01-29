@@ -10,7 +10,7 @@ BINARY_NAME="shakedown"
 # 1. Fetch the latest release tag dynamically
 # We use the API to get the JSON for the latest release, then filter for the "tag_name"
 echo "Checking for latest version..."
-LATEST_TAG=$(curl -sSL "${HOST}/api/v1/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | grep -oP '"tag_name":\s*"\K[^"]+')
+LATEST_TAG=$(curl -sSL "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | grep -oP '"tag_name":\s*"\K[^"]+')
 
 if [ -z "$LATEST_TAG" ]; then
     echo "Error: Could not determine latest version. Check your internet connection or repository URL."
