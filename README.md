@@ -2,7 +2,7 @@
 
 ```DISCLAIMER: This is largely created by AI, Stress-ng and GPU_burn are staples of stress testing linux systems. This was created with the intent of transforming cli tests we already used into an easy gui for non-technical users easing entry into stress testing linux systems. The Logs tab in tricorder is still a large work in progress, it still picks up many false positives. This was built targeting ubuntu-22.04 this should be mostly portable though your milage may vary. ```
 
-Intended method of use.
+Intended method of use. Read the release script before using, installs smartmontools with apt, install manually if apt isn't aplicable.
 
 
 ```curl -sSL https://raw.githubusercontent.com/JDKarner/shakedown/refs/heads/main/scripts/release.sh | bash```
@@ -13,6 +13,7 @@ Intended method of use.
 ![image](https://git.karner.dev/jdkarner/shakedown/attachments/9481ceb8-e04a-41e0-8e68-da15cd074a5b)
 
 Shakedown is a GUI application for running comprehensive hardware stress tests on Linux systems to detect hardware faults. It provides a user-friendly interface for configuring and monitoring stress-ng tests while tracking system temperatures and hardware errors.
+Tricorder asks for a sudo password, most features work without it and you can safely press cancel.
 
 ## Features
 
